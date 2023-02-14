@@ -7,7 +7,9 @@ const Header = () => {
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
-                <a className="navbar-brand text-danger" href="#">TMDB</a>
+                <Link to="/" className="nav-item text-decoration-none">
+                    <a className="navbar-brand text-danger" href="/">TMDB</a>
+                </Link>    
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -17,7 +19,7 @@ const Header = () => {
                             <a className="nav-link  text-danger" href="#">HOME</a>
                         </Link>
                         <Link to="/movies/popular" className="nav-item text-decoration-none">
-                            <a className="nav-link  text-danger" href="#">POPULAR</a>
+                            <a className="nav-link  text-danger" href="#">NOW PLAYING</a>
                         </Link>
                         <Link to="/movies/top_rated" className="nav-item text-decoration-none">
                             <a className="nav-link  text-danger" href="#">TOP RATED</a>

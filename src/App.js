@@ -27,7 +27,7 @@ const App = () => {
                 <Routes>
                     <Route index element = {<Home/>}></Route>
                     <Route path="movie/:id" element = {<h1>Hello World id</h1>}></Route>
-                    <Route path="movies/:type" element = {<h1>Hello World asasa</h1>}></Route>
+                    <Route path="movies/:type" element = {"1010"}></Route>
                     <Route path="/*" element = {<h1>ERROR</h1>}></Route>
                 </Routes> 
             </Router>
