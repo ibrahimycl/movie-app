@@ -1,27 +1,29 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMovie } from "../../redux/features/movie/movieSlice";
-import { Link } from "react-router-dom";
 import Card from "../../compenents/header/card/Card";
+import { useParams } from "react-router-dom";
 
 
 const Home = () => {
 
     const dispatch = useDispatch();
 
-    const { movie } = useSelector(state => state.movie)
+    const { movie } = useSelector(state => state.movie);
+    const {type} = useParams();
 
     useEffect(() => {
-        dispatch(getMovie())
-    }, [])
+        dispatch(getMovie(type))
+    }, [type])
 
     if (!movie) {
         return null;
     }
-    console.log(movie);
+    console.log(movie,type);
 
     return (
             <>
+                <h2 className="text-danger ms-4">{type=="top_rated"? "TOP RATED":type =="upcoming"?"UPCOMING":"HOME"}</h2>
                 <Card movie={movie}/>
             </>
             )

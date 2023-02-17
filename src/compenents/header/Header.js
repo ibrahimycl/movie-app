@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
 
 const Header = () => {
 
+    const [searchValue, setSearchValue] = useState("");
+
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
                 <Link to="/" className="nav-item text-decoration-none">
-                    <a className="navbar-brand text-danger" href="/">TMDB</a>
+                    <p className="navbar-brand text-danger">TMDB</p>
                 </Link>    
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -16,18 +19,20 @@ const Header = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <Link to="/" className="nav-item text-decoration-none">
-                            <a className="nav-link  text-danger" href="#">HOME</a>
+                            <p className="nav-link  text-danger" >HOME</p>
                         </Link>
-                        <Link to="/movies/popular" className="nav-item text-decoration-none">
-                            <a className="nav-link  text-danger" href="#">NOW PLAYING</a>
+                        <Link to="/movies/upcoming" className="nav-item text-decoration-none">
+                            <p className="nav-link  text-danger" >UPCOMING</p>
                         </Link>
                         <Link to="/movies/top_rated" className="nav-item text-decoration-none">
-                            <a className="nav-link  text-danger" href="#">TOP RATED</a>
+                            <p className="nav-link  text-danger" >TOP RATED</p>
                         </Link>
                     </ul>
                     <form className="d-flex pe-4">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-danger " type="submit">Search</button>
+                        <input className="form-control me-2" type="text" id="search"  onChange={(e)=> {setSearchValue(e.target.value);}} placeholder="Search" aria-label="Search" />
+                        <Link to={`movien/${searchValue}`}>
+                            <button className="btn btn-outline-danger " type="submit">Search</button>
+                        </Link>
                     </form>
                 </div>
             </div>

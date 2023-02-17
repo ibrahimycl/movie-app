@@ -4,14 +4,16 @@ import axios from "axios";
 const initialState ={
     movie : (null)
 }
-export const getMovie = createAsyncThunk('getMovie',async(type)=>{
+export const getMovie = createAsyncThunk('getMovie',async(action)=>{
 
-    if(type==null)
+    if(action == null)
     {
-        const {data} = await axios.get("https://api.themoviedb.org/3/discover/movie?api_key=5a7a55293c782477997838f62c5e8814&language=en-US")
-        return data.results;
+        action = "popular"
     }
-    
+    console.log(action);
+    const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${action}?api_key=5a7a55293c782477997838f62c5e8814&language=en-US&page=1`)
+    return data.results;
+
 })
 
 export const movieSlice = createSlice({
