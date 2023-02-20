@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
-
+import Sign from ".pages/authentication/Sign"
 import Movie from "./pages/movieDetails/Movie";
 import SearchFiltered from "./pages/search/SearchFiltered";
 import Login from "./pages/authentication/Login";
@@ -18,6 +18,7 @@ const App = () => {
                     <Route path=":que/movies/:type" element = {<Home/>}></Route>
                     <Route path=":que/movien/:name" element = {<SearchFiltered/>}></Route>
                     <Route path="/login" element = {<Login/>}></Route>
+                    <Route path="/sign" element = {<Sign/>}></Route>
                     <Route path=":que/protected" element = {<Protected/>}></Route>
                     <Route path=":que/protected/movie/:type" element = {<Protected/>}></Route>
                     <Route path=":que/protected/movies/:id" element = {<Movie/>}></Route>
