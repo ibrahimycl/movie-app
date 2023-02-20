@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getMovie } from "../../redux/features/movie/movieSlice";
-import Card from "../../compenents/header/card/Card";
+import Card from "../../compenents/card/Card";
 import { useParams } from "react-router-dom";
+import Header from "../../compenents/header/Header";
 
 
 const Home = () => {
@@ -11,6 +12,8 @@ const Home = () => {
 
     const { movie } = useSelector(state => state.movie);
     const {type} = useParams();
+    const {que} = useParams();
+
 
     useEffect(() => {
         dispatch(getMovie(type))
@@ -20,9 +23,11 @@ const Home = () => {
         return null;
     }
     console.log(movie,type);
+    console.log(que);
 
     return (
             <>
+                <Header/>
                 <h2 className="text-danger ms-4">{type=="top_rated"? "TOP RATED":type =="upcoming"?"UPCOMING":"HOME"}</h2>
                 <Card movie={movie}/>
             </>

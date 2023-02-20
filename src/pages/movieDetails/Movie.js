@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import YouTube from "react-youtube";
+import Header from "../../compenents/header/Header";
 import "./Movie.css";
 
 const Movie = () =>{
@@ -51,6 +52,7 @@ const Movie = () =>{
 
     return(
         <>
+            <Header/>
             <h1 className="text-danger ms-4 text-center tittle"  >{movie.original_title} </h1>
             <img className="poster" src={`https://image.tmdb.org/t/p/original${movie && movie.poster_path}`} />
             <div className="video">{renderTrailer()}</div>
