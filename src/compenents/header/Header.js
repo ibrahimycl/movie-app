@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { Logout } from "../../firebase";
 import "./Header.css";
 
 const Header = () => {
@@ -37,12 +38,12 @@ const Header = () => {
                                 <p className="nav-link  text-danger" >Favorites</p>
                             </Link>
                             <Link to="/" className="nav-item text-decoration-none">
-                                <p className="nav-link  text-danger" >Log Out</p>
+                                <p className="nav-link  text-danger" onClick={Logout} >Log Out</p>
                             </Link>
                         </div>:
                         <div className="d-flex pe-4 text-danger mt-3">
-                            <Link to="/" className="nav-item text-decoration-none">
-                                <p className="nav-link  text-danger" >Sign Up</p>
+                            <Link to="/sign" className="nav-item text-decoration-none">
+                                <p className="nav-link  text-danger" >Sign In</p>
                             </Link>
                             <Link to="/login" className="nav-item text-decoration-none">
                                 <p className="nav-link  text-danger" >Log In</p>

@@ -1,31 +1,24 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Header from "../../compenents/header/Header";
-import {login,selectToken} from "../../redux/features/auth/authSlice";
+import { Login as LoginHandle } from "../../firebase";
+
+
 
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const dispatch = useDispatch();
-    const token = useSelector(selectToken);
-    const authStatus = useSelector((state) => state.auth.status);
-    const authError = useSelector((state) => state.auth.error);
+    const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        dispatch(login({email,password}));
-        console.log(token);
-        console.log(authStatus);
-        if(token){
-            console.log("basarili");
-            console.log(token);
+        const user = await LoginHandle(email,password);
+        if(user)
+        {
+            navigate("/auth/protected");
         }
-        else{
-            console.log("hataa");
-        }
-        
     };
 
     return (
@@ -46,10 +39,7 @@ const Login = () => {
                                         <label>Parola:</label>
                                         <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} />
                                     </div>
-                                    <button type="submit" className="btn btn-danger btn-block" disabled={authStatus === 'loading'}>
-                                        {authStatus=="loading"? 'Loading...' : 'Login'}
-                                    </button>
-                                    {authStatus === 'failed' && <div>{authError}</div>}
+                                    <button type="submit" className="btn btn-danger btn-block" >Login</button>
                                 </form>
                             </div>
                         </div>

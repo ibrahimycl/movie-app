@@ -4,6 +4,7 @@ import { getMovie } from "../../redux/features/movie/movieSlice";
 import Card from "../../compenents/card/Card";
 import { useParams } from "react-router-dom";
 import Header from "../../compenents/header/Header";
+import { Display } from "../../firebase";
 
 
 const Home = () => {
@@ -11,19 +12,17 @@ const Home = () => {
     const dispatch = useDispatch();
 
     const { movie } = useSelector(state => state.movie);
+    const {user} = useSelector(state => state.auth)
     const {type} = useParams();
-    const {que} = useParams();
-
 
     useEffect(() => {
         dispatch(getMovie(type))
+        console.log(user);
     }, [type])
 
     if (!movie) {
         return null;
     }
-    console.log(movie,type);
-    console.log(que);
 
     return (
             <>

@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
-import Sign from ".pages/authentication/Sign"
+import Sign from "./pages/authentication/Sign"
 import Movie from "./pages/movieDetails/Movie";
 import SearchFiltered from "./pages/search/SearchFiltered";
 import Login from "./pages/authentication/Login";

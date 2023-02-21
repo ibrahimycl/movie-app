@@ -10,7 +10,6 @@ export const getMovie = createAsyncThunk('getMovie',async(action)=>{
     {
         action = "popular"
     }
-    console.log(action);
     const {data} = await axios.get(`https://api.themoviedb.org/3/movie/${action}?api_key=5a7a55293c782477997838f62c5e8814&language=en-US&page=1`)
     return data.results;
 

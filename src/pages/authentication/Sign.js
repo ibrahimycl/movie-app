@@ -1,14 +1,23 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../compenents/header/Header";
+import { Register } from "../../firebase";
+
 
 const Sign = () => {
+const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        
+        const user = await Register(email,password);
+        if(user){
+            navigate("/auth/protected");
+        }
+        console.log(user);
     };
 
     return (
@@ -19,7 +28,7 @@ const Sign = () => {
                     <div className="col-md-6">
                         <div className="card mt-5">
                             <div className="card-body">
-                                <h2 className="card-title text-center mb-4">Giriş Yap</h2>
+                                <h2 className="card-title text-center mb-4">Kayıt OL</h2>
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-group">
                                         <label>E-posta:</label>
