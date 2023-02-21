@@ -3,9 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../compenents/header/Header";
 import { Login as LoginHandle } from "../../firebase";
 
-
-
-
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
