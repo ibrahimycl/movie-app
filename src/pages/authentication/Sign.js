@@ -15,7 +15,7 @@ const navigate = useNavigate();
         event.preventDefault();
         const user = await Register(email,password);
         if(user){
-            navigate("/auth/protected");
+            navigate("/login");
         }
         console.log(user);
     };

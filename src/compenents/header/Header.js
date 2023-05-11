@@ -1,19 +1,21 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { Logout } from "../../firebase";
 import "./Header.css";
+import { useSelector } from "react-redux";
 
 const Header = () => {
 
     const [searchValue, setSearchValue] = useState("");
-    const {que} = useParams();
+    const {user} = useSelector(state => state.auth);
+
+    console.log(user);
     
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
-                <Link to={que == "auth"?"/auth/protected":"/"} className="nav-item text-decoration-none">
+                <Link to="/" className="nav-item text-decoration-none">
                     <p className="navbar-brand text-danger">TMDB</p>
                 </Link>    
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,20 +23,20 @@ const Header = () => {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <Link to={que == "auth"?"/auth/protected":"/"}  className="nav-item text-decoration-none">
+                        <Link to="/" className="nav-item text-decoration-none">
                             <p className="nav-link  text-danger" >HOME</p>
                         </Link>
-                        <Link to={que == "auth"?"/auth/protected/movie/upcoming":"/entry/movies/upcoming"}  className="nav-item text-decoration-none">
+                        <Link to="/movies/upcoming"  className="nav-item text-decoration-none">
                             <p className="nav-link  text-danger" >UPCOMING</p>
                         </Link>
-                        <Link to={que == "auth"?"/auth/protected/movie/top_rated":"/entry/movies/top_rated"} className="nav-item text-decoration-none">
+                        <Link to="/movies/top_rated" className="nav-item text-decoration-none">
                             <p className="nav-link  text-danger" >TOP RATED</p>
                         </Link>
                     </ul>
                     {
-                        que ==="auth"? 
+                        user? 
                         <div className="d-flex pe-4 text-danger mt-3">
-                            <Link to="/auth/protected" className="nav-item text-decoration-none">
+                            <Link to="/favorites" className="nav-item text-decoration-none">
                                 <p className="nav-link  text-danger" >Favorites</p>
                             </Link>
                             <Link to="/" className="nav-item text-decoration-none">
@@ -53,7 +55,7 @@ const Header = () => {
                    
                     <form className="d-flex ">
                         <input className="form-control me-2" type="text" id="search"  onChange={(e)=> {setSearchValue(e.target.value);}} placeholder="Search" aria-label="Search" />
-                        <Link to={que == "auth" ?`/auth/protected/movien/${searchValue}`: `/entry/movien/${searchValue}`}>
+                        <Link to={`/movien/${searchValue}`}>
                             <button className="btn btn-outline-danger " type="submit">Search</button>
                         </Link>
                     </form>                   
@@ -66,11 +68,3 @@ const Header = () => {
 export default Header;
 
 
-/*<div className="d-flex pe-4 text-danger mt-3">
-                            <Link to="auth/login" className="nav-item text-decoration-none">
-                                <p className="nav-link  text-danger" >Login</p>
-                            </Link>
-                            <Link to="/" className="nav-item text-decoration-none">
-                                <p className="nav-link  text-danger" >Sign In</p>
-                            </Link>
-                        </div>:*/

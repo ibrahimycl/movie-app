@@ -12,7 +12,7 @@ export const authSlice = createSlice({
         login: (state,action) =>{
           localStorage.setItem('user',JSON.stringify(action.payload));
           state.user = action.payload;
-        },
+        }, 
         logout: (state,action) => {
           localStorage.removeItem('user');
           state.user = false;

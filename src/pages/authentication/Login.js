@@ -14,7 +14,7 @@ const Login = () => {
         const user = await LoginHandle(email,password);
         if(user)
         {
-            navigate("/auth/protected");
+            navigate("/");
         }
     };
 
@@ -36,7 +36,7 @@ const Login = () => {
                                         <label>Parola:</label>
                                         <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} />
                                     </div>
-                                    <button type="submit" className="btn btn-danger btn-block" >Login</button>
+                                    <button type="submit" className="btn btn-danger btn-block mt-2" >Login</button>
                                 </form>
                             </div>
                         </div>
