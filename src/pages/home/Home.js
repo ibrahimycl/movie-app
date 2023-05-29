@@ -5,15 +5,12 @@ import Card from "../../compenents/card/Card";
 import { useParams } from "react-router-dom";
 import Header from "../../compenents/header/Header";
 
-
 const Home = () => {
 
     const dispatch = useDispatch();
 
     const { movie } = useSelector(state => state.movie);
     const {type} = useParams();
-    const {que} = useParams();
-
 
     useEffect(() => {
         dispatch(getMovie(type))
@@ -22,8 +19,6 @@ const Home = () => {
     if (!movie) {
         return null;
     }
-    console.log(movie,type);
-    console.log(que);
 
     return (
             <>
@@ -35,23 +30,3 @@ const Home = () => {
 }
 
 export default Home;
-
-
-/*return (
-            <>
-                {movie.map(movie =>  (
-                        <div className="row row-cols-1 row-cols-md-3 g-4">
-                            <div className="col">
-                                <div className="card h-100">
-                                    <img src={`https://image.tmdb.org/t/p/original${movie && movie.backdrop_path}`} className="card-img-top" alt="..." />
-                                    <div className="card-body">
-                                        <h5 className="card-title">{movie.original_title}</h5>
-                                        <p className="card-text">{movie.overview}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                }
-            </>
-            )*/

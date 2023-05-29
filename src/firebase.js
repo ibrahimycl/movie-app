@@ -1,11 +1,14 @@
-// Import the functions you need from the SDKs you need
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,onAuthStateChanged, signOut } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, collection, addDoc, onSnapshot,query,where,deleteDoc,getDocs,doc } from "firebase/firestore";
+import { login,logout } from "./redux/features/auth/authSlice";
+import { store } from "./redux/app/store";
+import { setId } from "./redux/features/movid/movidSlice";
+import { toast } from "react-hot-toast";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyC3tK9dsL7zXsOaUwWTV9U_cpv8wxa4oaE",
   authDomain: "movies-646f7.firebaseapp.com",
@@ -20,4 +23,82 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+const auth = getAuth();
+export const db = getFirestore(app);
+
+export const Register = async(email,password) =>{
+    try{
+        const {user} = await createUserWithEmailAndPassword(auth,email,password)
+        toast.success("Registration Successful");
+        return user;
+    }
+    catch(error){
+        toast.error(error.message);
+    }
+}
+
+export const Login = async(email,password) =>{
+    try{
+        const {user} = await signInWithEmailAndPassword(auth,email,password);
+        toast.success("Login Successful");
+        return user;
+    }
+    catch(error){
+        toast.error(error.message);
+    }
+}
+
+export const Logout = async() =>{
+    try{
+        await signOut(auth);
+        window.location.reload();
+        return true;
+    }
+    catch(error){
+        toast.error(error.message);
+    }
+}
+
+onAuthStateChanged(auth, (user) => {
+    
+    if (user) {
+        store.dispatch(login(user));
+    } 
+    else{
+        store.dispatch(logout(user));
+        console.log("Session Closed");
+    }
+    onSnapshot(query(collection(db,"movies_id") , where('uid', '==' , auth.currentUser.uid)),(doc)=>{
+        store.dispatch(
+            setId(
+                doc.docs.reduce((id,i)=>[...id,i.data()],[])
+            ))
+    });
+  });
+
+export const addData = async data =>{
+    try {
+        const newData = await addDoc(collection(db,"movies_id"),data);
+        toast.success("The Film Has Been Added To Favorites.");
+        console.log(newData);
+    } catch (error) {
+        toast.error("You Need to Sign In to Make Additions!");
+    }
+}
+
+export const deleteMoviesById = async (id) => {
+    const moviesRef = collection(db, "movies_id");
+    const q = query(moviesRef, where("id", "==", id));
+  
+    const querySnapshot = await getDocs(q);
+  
+    querySnapshot.docs.forEach(async(doc) => {
+      await deleteDoc(doc.ref);
+      toast.success("The Film Has Been Successfully Removed.");
+      window.location.reload();
+      
+    });
+  };
+
 export default app;
+

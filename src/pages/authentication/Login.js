@@ -1,31 +1,21 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate ,Link} from "react-router-dom";
 import Header from "../../compenents/header/Header";
-import {login,selectToken} from "../../redux/features/auth/authSlice";
-
+import { Login as LoginHandle } from "../../firebase";
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const dispatch = useDispatch();
-    const token = useSelector(selectToken);
-    const authStatus = useSelector((state) => state.auth.status);
-    const authError = useSelector((state) => state.auth.error);
+    const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        dispatch(login({email,password}));
-        console.log(token);
-        console.log(authStatus);
-        if(token){
-            console.log("basarili");
-            console.log(token);
+        const user = await LoginHandle(email,password);
+        if(user)
+        {
+            navigate("/");
         }
-        else{
-            console.log("hataa");
-        }
-        
     };
 
     return (
@@ -36,20 +26,22 @@ const Login = () => {
                     <div className="col-md-6">
                         <div className="card mt-5">
                             <div className="card-body">
-                                <h2 className="card-title text-center mb-4">Giriş Yap</h2>
+                                <h2 className="card-title text-center mb-4">Login</h2>
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-group">
                                         <label>E-posta:</label>
                                         <input type="email" className="form-control" onChange={(e)=> setEmail(e.target.value)} />
                                     </div>
                                     <div className="form-group">
-                                        <label>Parola:</label>
+                                        <label>Password:</label>
                                         <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} />
                                     </div>
-                                    <button type="submit" className="btn btn-danger btn-block" disabled={authStatus === 'loading'}>
-                                        {authStatus=="loading"? 'Loading...' : 'Login'}
-                                    </button>
-                                    {authStatus === 'failed' && <div>{authError}</div>}
+                                    <Link to = "/sign" className="text-decoration-none ">
+                                        <div className="text-dark text-decoration-none mt-2 mb-2">
+                                            "Don't have an account? Sign up."
+                                        </div> 
+                                    </Link>   
+                                    <button type="submit" className="btn btn-danger btn-block mt-2" >Login</button>
                                 </form>
                             </div>
                         </div>

@@ -15,7 +15,6 @@ const SearchFiltered = () => {
 
     useEffect(()=>{
         dispatch(getsearchMovie(name))
-    
     },[name])
 
 

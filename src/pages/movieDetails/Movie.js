@@ -28,8 +28,6 @@ const Movie = () =>{
             const trailer = data.results.find(vid => vid.name === "Official Trailer")
             setVideo(trailer?trailer:data.results[0])
         }})
-
-        
     }
     if (!movie) {
         return null;
@@ -37,9 +35,6 @@ const Movie = () =>{
     if (!video) {
         return null;
     }
-    console.log(movie,id);
-    console.log(video);
-
     const renderTrailer = () =>{
 
         return(
@@ -47,7 +42,6 @@ const Movie = () =>{
                 videoId={video.key}
             />
         )
-
     }
 
     return(
