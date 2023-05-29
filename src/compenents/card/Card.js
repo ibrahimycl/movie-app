@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { addData } from "../../firebase";
 import { deleteMoviesById } from "../../firebase";
+import { toast } from "react-hot-toast";
 
 
 const Card = ({movie,isTrue}) => {
@@ -10,25 +11,31 @@ const Card = ({movie,isTrue}) => {
     const[id,setId] = useState(null); 
     const[deletedId,setDeletedId] = useState(null)
 
-    const {que} = useParams();
+    const {ids} = useSelector(state => state.movid);
     const {user} = useSelector(state => state.auth);
     
     useEffect(()=>{
-        console.log(deletedId);
-        const fetchData = async() =>{
+        const addMovie = async() =>{
             await addData({
                 id,
                 uid:user.uid
             })
         }
-        const fetchDataa = async() =>{
+        const deletedMovie = async() =>{
             await deleteMoviesById(deletedId);
         }
-        if(id != null){
-            fetchData();
+        if(id != null){ 
+            if(ids.find(i => i.id === id))
+            {
+                toast.error("Already Added");
+            }
+            else{
+                addMovie();
+            }
+            
         }
-        if(deletedId != null){
-            fetchDataa();
+        if(deletedId != null){ 
+            deletedMovie();
         }
     },[id,deletedId])
     return(
@@ -39,7 +46,7 @@ const Card = ({movie,isTrue}) => {
 
                          (<div className="col">
                             <div className="card h-100">
-                                <Link className="col text-decoration-none text-danger " to={que == "auth" ?`/auth/protected/movies/${movie.id}`:`/entry/movie/${movie.id}`}>
+                                <Link className="col text-decoration-none text-danger " to={`/movie/${movie.id}`}>
                                     <img src={`https://image.tmdb.org/t/p/original${movie && movie.backdrop_path}`} className="card-img-top" alt="..." />
                                     <div className="card-body">
                                         <h5 className="card-title">{movie.title}</h5>
@@ -50,10 +57,10 @@ const Card = ({movie,isTrue}) => {
                                     {
                                         isTrue ?
                                         (
-                                            <button type="button" className="btn-danger "onClick={handleClickk=>setDeletedId(movie.id)}>Remove</button>
+                                            <button type="button" className="btn-danger "onClick={handleClickk=>{setDeletedId(movie.id);}}>Remove</button>
                                         ):
                                         (
-                                            <button type="button" className="btn-danger" onClick={handleClick=>setId(movie.id) }>Add</button>
+                                            <button type="button" className="btn-danger" onClick={handleClick=>{setId(movie.id)} }>Add</button>
                                         )
                                     }
                                 </div>

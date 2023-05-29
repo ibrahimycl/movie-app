@@ -1,33 +1,50 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../compenents/card/Card";
 import Header from "../../compenents/header/Header";
+import { setLoading } from "../../redux/features/movid/movidSlice";
 
 const Fav = () =>{
 
     const[movie,setMovie] = useState([]);
     const[isTrue,setIsTrue] = useState(true);    
 
-    const {id} = useSelector(state => state.movid);
-    
-    
+    const {ids , loading} = useSelector(state => state.movid);
+    const dispatch = useDispatch();
+
     useEffect(() =>{
-        getData();
-    },[])
+        if (!ids.length) {
+            dispatch(setLoading(false));
+        }else{
+            getData();
+        }
+    },[ids])
+
     const getData = () => {
-        id.map(i =>fetch(`https://api.themoviedb.org/3/movie/${i.id}?api_key=5a7a55293c782477997838f62c5e8814&language=en-US`)
+        dispatch(setLoading(true));
+        ids.map(id =>fetch(`https://api.themoviedb.org/3/movie/${id.id}?api_key=5a7a55293c782477997838f62c5e8814&language=en-US`)
         .then(res => res.json())
-        .then(data => setMovie(prevMovie => [...prevMovie,data])) )
+        .then(data => setMovie(prevMovie => [...prevMovie,data])) 
+        .then(() => dispatch(setLoading(false)))) 
     }
 
-    console.log(id,movie);
+    console.log(ids,movie,loading);
     return(
         <>
-            <Header/>
-            <Card 
-            movie={movie}
-            isTrue={isTrue}
-            />
+            <Header />
+            {loading ? (
+            <div>Loading...</div> 
+            ) : (
+            <>
+            {!ids.length ? (
+              <div className="text-danger  text-center" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
+                <div className="tittle">You haven't added any favorite movies yet.</div>
+              </div> 
+            ) : (
+              <Card movie={movie} isTrue={isTrue} />
+            )}
+            </>
+            )}
         </>
     )
 }

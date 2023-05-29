@@ -9,8 +9,6 @@ const Header = () => {
 
     const [searchValue, setSearchValue] = useState("");
     const {user} = useSelector(state => state.auth);
-
-    console.log(user);
     
     return (
         <nav className="navbar navbar-expand-lg">
@@ -45,7 +43,7 @@ const Header = () => {
                         </div>:
                         <div className="d-flex pe-4 text-danger mt-3">
                             <Link to="/sign" className="nav-item text-decoration-none">
-                                <p className="nav-link  text-danger" >Sign In</p>
+                                <p className="nav-link  text-danger" >Sign Up</p>
                             </Link>
                             <Link to="/login" className="nav-item text-decoration-none">
                                 <p className="nav-link  text-danger" >Log In</p>

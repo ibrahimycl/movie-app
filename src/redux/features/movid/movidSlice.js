@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState ={
-    id : []
+    ids : [],
+    loading: false,
 }
 
 export const movidSlice = createSlice({
@@ -10,14 +11,17 @@ export const movidSlice = createSlice({
     initialState,
     reducers: {
         setId: (state,action) =>{
-            state.id = action.payload;
+            state.ids = action.payload;
           },
         addId: (state,action) =>{
-          state.id = [...state.id,action.payload];
+          state.ids = [...state.id,action.payload];
+        },
+        setLoading: (state, action) => {
+          state.loading = action.payload; 
         },
       },
     })
     
-    export const {setId,addId} = movidSlice.actions;
+    export const {setId,addId,setLoading} = movidSlice.actions;
     
     export default movidSlice.reducer;

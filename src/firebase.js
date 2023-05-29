@@ -5,7 +5,7 @@ import { getFirestore, collection, addDoc, onSnapshot,query,where,deleteDoc,getD
 import { login,logout } from "./redux/features/auth/authSlice";
 import { store } from "./redux/app/store";
 import { setId } from "./redux/features/movid/movidSlice";
-import { toast, Toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 
 
@@ -29,7 +29,7 @@ export const db = getFirestore(app);
 export const Register = async(email,password) =>{
     try{
         const {user} = await createUserWithEmailAndPassword(auth,email,password)
-        toast.success("Kayıt Başarıyla gerçekleşti");
+        toast.success("Registration Successful");
         return user;
     }
     catch(error){
@@ -40,7 +40,7 @@ export const Register = async(email,password) =>{
 export const Login = async(email,password) =>{
     try{
         const {user} = await signInWithEmailAndPassword(auth,email,password);
-        toast.success("Giriş İşlemi gerçekleşti");
+        toast.success("Login Successful");
         return user;
     }
     catch(error){
@@ -51,6 +51,7 @@ export const Login = async(email,password) =>{
 export const Logout = async() =>{
     try{
         await signOut(auth);
+        window.location.reload();
         return true;
     }
     catch(error){
@@ -65,7 +66,7 @@ onAuthStateChanged(auth, (user) => {
     } 
     else{
         store.dispatch(logout(user));
-        console.log("Kapalı");
+        console.log("Session Closed");
     }
     onSnapshot(query(collection(db,"movies_id") , where('uid', '==' , auth.currentUser.uid)),(doc)=>{
         store.dispatch(
@@ -78,10 +79,10 @@ onAuthStateChanged(auth, (user) => {
 export const addData = async data =>{
     try {
         const newData = await addDoc(collection(db,"movies_id"),data);
-        toast.success("Film Favorilere Eklendi");
+        toast.success("The Film Has Been Added To Favorites.");
         console.log(newData);
     } catch (error) {
-        toast.error(error.message);
+        toast.error("You Need to Sign In to Make Additions!");
     }
 }
 
@@ -93,7 +94,9 @@ export const deleteMoviesById = async (id) => {
   
     querySnapshot.docs.forEach(async(doc) => {
       await deleteDoc(doc.ref);
-      toast.success("Film Başırıyla Kaldırıldı");
+      toast.success("The Film Has Been Successfully Removed.");
+      window.location.reload();
+      
     });
   };
 
